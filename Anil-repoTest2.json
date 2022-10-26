@@ -1,0 +1,68 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workspace": {
+            "type": "String"
+        }
+    },
+    "resources": [
+        {
+            "id": "[concat(resourceId('Microsoft.OperationalInsights/workspaces/providers', parameters('workspace'), 'Microsoft.SecurityInsights'),'/alertRules/36e6046b-4cea-417f-aa70-1329719873f7')]",
+            "name": "[concat(parameters('workspace'),'/Microsoft.SecurityInsights/36e6046b-4cea-417f-aa70-1329719873f7')]",
+            "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
+            "kind": "Scheduled",
+            "apiVersion": "2022-09-01-preview",
+            "properties": {
+                "displayName": "Anil-test deployment - 2",
+                "description": "",
+                "severity": "Medium",
+                "enabled": false,
+                "query": "Heartbeat\r\n| where _ResourceId contains \"ABC\"",
+                "queryFrequency": "PT5H",
+                "queryPeriod": "PT5H",
+                "triggerOperator": "GreaterThan",
+                "triggerThreshold": 0,
+                "suppressionDuration": "PT5H",
+                "suppressionEnabled": false,
+                "tactics": [],
+                "techniques": [],
+                "alertRuleTemplateName": null,
+                "incidentConfiguration": {
+                    "createIncident": true,
+                    "groupingConfiguration": {
+                        "enabled": false,
+                        "reopenClosedIncident": false,
+                        "lookbackDuration": "PT5H",
+                        "matchingMethod": "AllEntities",
+                        "groupByEntities": [],
+                        "groupByAlertDetails": [],
+                        "groupByCustomDetails": []
+                    }
+                },
+                "eventGroupingSettings": {
+                    "aggregationKind": "SingleAlert"
+                },
+                "alertDetailsOverride": null,
+                "customDetails": null,
+                "entityMappings": null,
+                "sentinelEntitiesMappings": null
+            }
+        },
+        {
+            "id": "[concat(resourceId('Microsoft.OperationalInsights/workspaces/providers', parameters('workspace'), 'Microsoft.SecurityInsights'),'/alertRules/36e6046b-4cea-417f-aa70-1329719873f7/actions/46750ce5c8aa4812bb2b631b5cf02989')]",
+            "name": "[concat(parameters('workspace'),'/Microsoft.SecurityInsights/36e6046b-4cea-417f-aa70-1329719873f7/46750ce5c8aa4812bb2b631b5cf02989')]",
+            "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules/actions",
+            "apiVersion": "2022-09-01-preview",
+            "properties": {
+                "ruleId": "[concat(resourceId('Microsoft.OperationalInsights/workspaces/providers', parameters('workspace'), 'Microsoft.SecurityInsights'),'/alertRules/36e6046b-4cea-417f-aa70-1329719873f7')]",
+                "triggerUri": "[listCallbackURL(concat('/subscriptions/fa2b1782-24bb-4db5-9aa0-395196e31fb8/resourceGroups/Anil_Test_RG/providers/Microsoft.Logic/workflows/new-inc-notification','/triggers/When_a_response_to_an_Azure_Sentinel_alert_is_triggered'),'2016-06-01').value]",
+                "logicAppResourceId": "/subscriptions/fa2b1782-24bb-4db5-9aa0-395196e31fb8/resourceGroups/Anil_Test_RG/providers/Microsoft.Logic/workflows/new-inc-notification",
+                "operatesOn": "Alert"
+            },
+            "dependsOn": [
+                "[concat(resourceId('Microsoft.OperationalInsights/workspaces/providers', parameters('workspace'), 'Microsoft.SecurityInsights'),'/alertRules/36e6046b-4cea-417f-aa70-1329719873f7')]"
+            ]
+        }
+    ]
+}
